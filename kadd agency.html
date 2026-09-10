@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KADD Agency | Gestão de Tráfego Pago e Escala de Vendas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+        .font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; }
+        .font-script { font-family: 'Caveat', cursive; font-weight: 600; font-style: normal; }
+        .bg-glow { background: radial-gradient(circle at 50% -20%, #C1592B22, transparent); }
+        .accent-color { color: #C1592B; }
+        .bg-accent { background-color: #C1592B; }
+        .border-accent { border-color: #C1592B; }
+        .card-glass { background: rgba(243,237,227,0.04); backdrop-filter: blur(10px); border: 1px solid rgba(243,237,227,0.12); }
+        .card-glass:hover { border-color: #C1592B; transition: all 0.3s ease; }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 100; transition: all 0.3s ease; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body class="bg-[#1C130D] text-[#F3EDE3] overflow-x-hidden">
+    <!-- BOTÃO FLUTUANTE WHATSAPP -->
+    <a href="https://wa.me/5511949776897?text=Ol%C3%A1%2C%20vim%20pelo%20website%20e%20gostaria%20de%20saber%20mais" target="_blank" class="whatsapp-float flex items-center gap-3 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-2xl hover:bg-[#1ebd57] transition-all group">
+        <i class="fab fa-whatsapp text-2xl"></i>
+        <span class="text-xs font-bold uppercase tracking-tight hidden md:block" data-i18n="whatsapp_text">Fale conosco pelo WhatsApp</span>
+    </a>
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center bg-[#1C130D]/70 backdrop-blur-md border-b border-[#F3EDE3]/10">
+        <div class="font-display text-2xl tracking-tight uppercase flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane accent-color text-lg"></i>
+            KADD<span class="accent-color">AGENCY</span>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest">
+            <a href="#resultados" class="hover:accent-color transition" data-i18n="nav_results">Resultados</a>
+            <a href="#servicos" class="hover:accent-color transition" data-i18n="nav_services">O que fazemos</a>
+            <a href="#quem-somos" class="hover:accent-color transition" data-i18n="nav_about">Quem Somos</a>
+
+            <!-- Language Switcher -->
+            <div class="flex gap-2 ml-4 border-l border-[#F3EDE3]/20 pl-4">
+                <button onclick="setLanguage('pt')" class="hover:accent-color transition lang-btn" id="btn-pt">PT</button>
+                <span class="text-[#7A6A5A]">|</span>
+                <button onclick="setLanguage('en')" class="hover:accent-color transition lang-btn" id="btn-en">EN</button>
+            </div>
+        </div>
+        <a href="https://briefingkatch.lovable.app/" target="_blank" class="bg-accent text-[#2B1E17] px-5 py-2 rounded-full text-xs font-black hover:scale-105 transition shadow-[0_0_20px_rgba(193,89,43,0.4)]" data-i18n="nav_cta">
+            QUERO VENDER MAIS
+        </a>
+    </nav>
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center text-center px-4 bg-glow">
+        <div class="max-w-4xl">
+            <span class="inline-block px-4 py-1 rounded-full border border-[#C1592B]/30 accent-color text-xs font-bold mb-6 uppercase tracking-widest" data-i18n="hero_tag">
+                Estratégias de Tráfego Pago & Performance
+            </span>
+            <h1 class="font-display text-6xl md:text-8xl uppercase leading-[0.95] mb-6">
+                <span data-i18n="hero_title">Transforme Cliques em</span> <span class="accent-color" data-i18n="hero_title_highlight">Lucro Real</span> <span data-i18n="hero_title_end">no seu Bolso.</span>
+            </h1>
+            <p class="text-[#D8CBB8] text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light" data-i18n="hero_desc">
+                Não entregamos apenas "likes" ou visualizações. Implementamos máquinas de vendas previsíveis através de Meta Ads, Google Ads e Estratégias de Funil.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="https://briefingkatch.lovable.app/" target="_blank" class="bg-accent text-[#2B1E17] px-10 py-4 rounded-full font-black text-lg hover:scale-105 transition transform shadow-xl" data-i18n="hero_cta">
+                    QUERO SER UM CASE DE SUCESSO →
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- CASE STUDIES / RESULTS -->
+    <section id="resultados" class="py-24 px-6 bg-[#F3EDE3]/[0.02]">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl md:text-6xl uppercase mb-4"><span data-i18n="results_title">Resultados que</span> <span class="accent-color" data-i18n="results_title_highlight">Falam por Nós</span></h2>
+                <p class="text-[#9C8A76]" data-i18n="results_desc">Não acreditamos em promessas, acreditamos em métricas e ROI.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-8 rounded-3xl card-glass group">
+                    <div class="accent-color font-bold mb-2 uppercase text-xs tracking-widest" data-i18n="case1_tag">Ótica</div>
+                    <p class="text-[#D8CBB8] italic mb-6" data-i18n="case1_text">"A KADD conseguiu trazer mais visibilidade para nossa ótica em menos de um mês! As campanhas de Facebook Ads foram um sucesso."</p>
+                    <div class="h-1 w-12 bg-accent group-hover:w-full transition-all duration-500"></div>
+                </div>
+                <div class="p-8 rounded-3xl card-glass group">
+                    <div class="accent-color font-bold mb-2 uppercase text-xs tracking-widest" data-i18n="case2_tag">Loja de Roupas</div>
+                    <p class="text-[#D8CBB8] italic mb-6" data-i18n="case2_text">"Vimos um aumento significativo no fluxo de clientes na nossa loja física. Resultados ótimos e recomendamos muito!"</p>
+                    <div class="h-1 w-12 bg-accent group-hover:w-full transition-all duration-500"></div>
+                </div>
+                <div class="p-8 rounded-3xl card-glass group">
+                    <div class="accent-color font-bold mb-2 uppercase text-xs tracking-widest" data-i18n="case3_tag">Moda Masculina</div>
+                    <p class="text-[#D8CBB8] italic mb-6" data-i18n="case3_text">"Conseguimos vender os tênis estagnados que não conseguíamos sozinhos. Deu um ótimo fôlego para levantar caixa!"</p>
+                    <div class="h-1 w-12 bg-accent group-hover:w-full transition-all duration-500"></div>
+                </div>
+                <div class="p-8 rounded-3xl card-glass group">
+                    <div class="accent-color font-bold mb-2 uppercase text-xs tracking-widest" data-i18n="case4_tag">Festival Osasco</div>
+                    <p class="text-[#D8CBB8] italic mb-6" data-i18n="case4_text">"O evento atingiu o público certo e teve uma excelente presença, graças às estratégias de tráfego pago."</p>
+                    <div class="h-1 w-12 bg-accent group-hover:w-full transition-all duration-500"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SERVICES SECTION -->
+    <section id="servicos" class="py-24 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2">
+                    <h2 class="font-display text-5xl md:text-6xl uppercase mb-6 leading-[0.95]"><span data-i18n="services_title">O que nosso serviço</span> <br><span class="accent-color" data-i18n="services_title_highlight">inclui?</span></h2>
+                    <p class="text-[#B8A896] text-lg mb-8" data-i18n="services_desc">Não fazemos apenas anúncios. Criamos um ecossistema de vendas completo para que você não precise se preocupar com a origem dos seus leads.</p>
+                    <a href="https://briefingkatch.lovable.app/" target="_blank" class="accent-color font-bold hover:underline decoration-2 underline-offset-4" data-i18n="services_cta">Agendar consultoria gratuita →</a>
+                </div>
+                <div class="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10">
+                        <i class="fa-solid fa-palette accent-color text-2xl mb-3"></i>
+                        <h3 class="font-bold mb-2" data-i18n="s1_title">Criativos de Alta Conversão</h3>
+                        <p class="text-[#9C8A76] text-sm" data-i18n="s1_desc">Vídeos, imagens, scripts e copy focados em prender a atenção do cliente.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10">
+                        <i class="fa-solid fa-chart-line accent-color text-2xl mb-3"></i>
+                        <h3 class="font-bold mb-2" data-i18n="s2_title">Planejamento Estratégico</h3>
+                        <p class="text-[#9C8A76] text-sm" data-i18n="s2_desc">Estratégias personalizadas para o seu nicho, evitando desperdício de verba.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10">
+                        <i class="fa-solid fa-gears accent-color text-2xl mb-3"></i>
+                        <h3 class="font-bold mb-2" data-i18n="s3_title">Gestão Multiplataforma</h3>
+                        <p class="text-[#9C8A76] text-sm" data-i18n="s3_desc">Meta Ads, Google Ads, LinkedIn Ads e TikTok Ads com otimização diária.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10">
+                        <i class="fa-solid fa-bullseye accent-color text-2xl mb-3"></i>
+                        <h3 class="font-bold mb-2" data-i18n="s4_title">Consultoria de Funil</h3>
+                        <p class="text-[#9C8A76] text-sm" data-i18n="s4_desc">Ajudamos você a converter o lead no WhatsApp para que o clique vire venda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQ SECTION -->
+    <section class="py-24 px-6 bg-[#F3EDE3]/[0.02]">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="font-display text-4xl md:text-6xl uppercase text-center mb-16"><span data-i18n="faq_title">Dúvidas</span> <span class="accent-color" data-i18n="faq_title_highlight">Frequentes</span></h2>
+            <div class="space-y-4">
+                <details class="group p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10 cursor-pointer">
+                    <summary class="font-bold list-none flex justify-between items-center" data-i18n="faq1_q">O que é gestão de tráfego pago?</summary>
+                    <p class="text-[#B8A896] mt-4 text-sm leading-relaxed" data-i18n="faq1_a">É o processo de criar, gerenciar e otimizar anúncios online para atrair potenciais clientes qualificados diretamente para o seu negócio.</p>
+                </details>
+                <details class="group p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10 cursor-pointer">
+                    <summary class="font-bold list-none flex justify-between items-center" data-i18n="faq2_q">Quanto custa o serviço?</summary>
+                    <p class="text-[#B8A896] mt-4 text-sm leading-relaxed" data-i18n="faq2_a">Os valores variam de acordo com a complexidade do projeto e a verba de anúncio. Entre em contato para uma proposta personalizada.</p>
+                </details>
+                <details class="group p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10 cursor-pointer">
+                    <summary class="font-bold list-none flex justify-between items-center" data-i18n="faq3_q">Quanto tempo leva para ver resultados?</summary>
+                    <p class="text-[#B8A896] mt-4 text-sm leading-relaxed" data-i18n="faq3_a">Dependendo da estratégia e do nicho, os primeiros resultados em leads e visibilidade aparecem entre 1 a 3 semanas.</p>
+                </details>
+                <details class="group p-6 rounded-2xl bg-[#F3EDE3]/5 border border-[#F3EDE3]/10 cursor-pointer">
+                    <summary class="font-bold list-none flex justify-between items-center" data-i18n="faq4_q">Por que investir em tráfego pago?</summary>
+                    <p class="text-[#B8A896] mt-4 text-sm leading-relaxed" data-i18n="faq4_a">É a forma mais rápida e eficiente de atrair clientes qualificados, aumentar suas vendas e fortalecer sua presença online com previsibilidade de crescimento.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+    <!-- ABOUT SECTION -->
+    <section id="quem-somos" class="py-24 px-6">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h2 class="font-display text-4xl md:text-6xl uppercase mb-12"><span data-i18n="about_title">Quem está por trás da</span> <span class="accent-color">KADD?</span></h2>
+            <div class="p-10 rounded-3xl card-glass relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-[#C89B4A]/10 blur-3xl"></div>
+                <p class="text-lg text-[#D8CBB8] leading-relaxed mb-8" data-i18n="about_text1">
+                    <strong class="text-[#F3EDE3]">Karina Katch e David Costa</strong> são os CEOs da KADD Agency. Com mais de 4 anos de experiência, somos especialistas em transformar negócios comuns em operações lucrativas.
+                </p>
+                <p class="text-lg text-[#B8A896] leading-relaxed mb-10" data-i18n="about_text2">
+                    Atuamos com excelência em nichos como óticas, moda e eventos, ajudando empresas a crescerem de forma previsível através de campanhas orientadas a resultados reais.
+                </p>
+                <div class="accent-color font-black uppercase tracking-widest text-sm" data-i18n="about_footer">
+                    Damos voz à sua empresa com VERDADE e PROPÓSITO.
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FINAL CTA -->
+    <section id="contato" class="py-32 px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C1592B]/20 rounded-full blur-[120px]"></div>
+        </div>
+        <div class="container mx-auto relative z-10">
+            <h2 class="font-display text-5xl md:text-7xl uppercase mb-8"><span data-i18n="cta_title">Pronto para</span> <span class="accent-color" data-i18n="cta_title_highlight">escalar</span> <span data-i18n="cta_title_end">suas vendas?</span></h2>
+            <p class="text-[#D8CBB8] text-lg mb-12 max-w-2xl mx-auto" data-i18n="cta_desc">Não deixe seu concorrente pegar seus clientes. Vamos montar a sua estratégia de crescimento hoje.</p>
+            <a href="https://briefingkatch.lovable.app/" target="_blank" class="inline-block bg-accent text-[#2B1E17] px-12 py-5 rounded-full font-black text-xl hover:scale-110 transition transform shadow-2xl shadow-[#C1592B]/20" data-i18n="cta_button">
+                SOLICITAR ORÇAMENTO AGORA →
+            </a>
+        </div>
+    </section>
+    <!-- FOOTER -->
+    <footer class="py-12 px-6 border-t border-[#F3EDE3]/10 text-center">
+        <div class="flex flex-col items-center gap-6">
+            <div class="flex gap-6">
+                <a href="https://instagram.com/kadd.agency" target="_blank" class="text-[#B8A896] hover:accent-color transition text-2xl"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/5511949776897?text=Ol%C3%A1%2C%20vim%20pelo%20website%20e%20gostaria%20de%20saber%20mais" target="_blank" class="text-[#B8A896] hover:accent-color transition text-2xl"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="text-[#7A6A5A] text-xs uppercase tracking-widest">
+                &copy; 2023 KADD Agency. Performance & Growth. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+    <!-- SCRIPT DE IDIOMAS -->
+    <script>
+        const translations = {
+            pt: {
+                whatsapp_text: "Fale conosco pelo WhatsApp",
+                nav_results: "Resultados",
+                nav_services: "O que fazemos",
+                nav_about: "Quem Somos",
+                nav_cta: "QUERO VENDER MAIS",
+                hero_tag: "Estratégias de Tráfego Pago & Performance",
+                hero_title: "Transforme Cliques em",
+                hero_title_highlight: "Lucro Real",
+                hero_title_end: "no seu Bolso.",
+                hero_desc: "Não entregamos apenas \"likes\" ou visualizações. Implementamos máquinas de vendas previsíveis através de Meta Ads, Google Ads e Estratégias de Funil.",
+                hero_cta: "QUERO SER UM CASE DE SUCESSO →",
+                results_title: "Resultados que",
+                results_title_highlight: "Falam por Nós",
+                results_desc: "Não acreditamos em promessas, acreditamos em métricas e ROI.",
+                case1_tag: "Ótica",
+                case1_text: "\"A KADD conseguiu trazer mais visibilidade para nossa ótica em menos de um mês! As campanhas de Facebook Ads foram um sucesso.\"",
+                case2_tag: "Loja de Roupas",
+                case2_text: "\"Vimos um aumento significativo no fluxo de clientes na nossa loja física. Resultados ótimos e recomendamos muito!\"",
+                case3_tag: "Moda Masculina",
+                case3_text: "\"Conseguimos vender os tênis estagnados que não conseguíamos sozinhos. Deu um ótimo fôlego para levantar caixa!\"",
+                case4_tag: "Festival Osasco",
+                case4_text: "\"O evento atingiu o público certo e teve uma excelente presença, graças às estratégias de tráfego pago.\"",
+                services_title: "O que nosso serviço",
+                services_title_highlight: "inclui?",
+                services_desc: "Não fazemos apenas anúncios. Criamos um ecossistema de vendas completo para que você não precise se preocupar com a origem dos seus leads.",
+                services_cta: "Agendar consultoria gratuita →",
+                s1_title: "Criativos de Alta Conversão",
+                s1_desc: "Vídeos, imagens, scripts e copy focados em prender a atenção do cliente.",
+                s2_title: "Planejamento Estratégico",
+                s2_desc: "Estratégias personalizadas para o seu nicho, evitando desperdício de verba.",
+                s3_title: "Gestão Multiplataforma",
+                s3_desc: "Meta Ads, Google Ads, LinkedIn Ads e TikTok Ads com otimização diária.",
+                s4_title: "Consultoria de Funil",
+                s4_desc: "Ajudamos você a converter o lead no WhatsApp para que o clique vire venda.",
+                faq_title: "Dúvidas",
+                faq_title_highlight: "Frequentes",
+                faq1_q: "O que é gestão de tráfego pago?",
+                faq1_a: "É o processo de criar, gerenciar e otimizar anúncios online para atrair potenciais clientes qualificados diretamente para o seu negócio.",
+                faq2_q: "Quanto custa o serviço?",
+                faq2_a: "Os valores variam de acordo com a complexidade do projeto e a verba de anúncio. Entre em contato para uma proposta personalizada.",
+                faq3_q: "Quanto tempo leva para ver resultados?",
+                faq3_a: "Dependendo da estratégia e do nicho, os primeiros resultados em leads e visibilidade aparecem entre 1 a 3 semanas.",
+                faq4_q: "Por que investir em tráfego pago?",
+                faq4_a: "É a forma mais rápida e eficiente de atrair clientes qualificados, aumentar suas vendas e fortalecer sua presença online com previsibilidade de crescimento.",
+                about_title: "Quem está por trás da",
+                about_text1: "<strong class='text-[#F3EDE3]'>Karina Katch</strong> e sua equipe são os responsáveis pela KADD Agency. Com mais de 4 anos de experiência, somos especialistas em transformar negócios comuns em operações lucrativas.",
+                about_text2: "Atuamos com excelência em nichos como óticas, moda e eventos, ajudando empresas a crescerem de forma previsível através de campanhas orientadas a resultados reais.",
+                about_footer: "Damos voz à sua empresa com VERDADE e PROPÓSITO.",
+                cta_title: "Pronto para",
+                cta_title_highlight: "escalar",
+                cta_title_end: "suas vendas?",
+                cta_desc: "Não deixe seu concorrente pegar seus clientes. Vamos montar a sua estratégia de crescimento hoje.",
+                cta_button: "SOLICITAR ORÇAMENTO AGORA →"
+            },
+            en: {
+                whatsapp_text: "Chat with us on WhatsApp",
+                nav_results: "Results",
+                nav_services: "What we do",
+                nav_about: "About Us",
+                nav_cta: "I WANT TO SELL MORE",
+                hero_tag: "Paid Traffic & Performance Strategies",
+                hero_title: "Turn Clicks into",
+                hero_title_highlight: "Real Profit",
+                hero_title_end: "in your Pocket.",
+                hero_desc: "We don't just deliver 'likes' or views. We implement predictable sales machines through Meta Ads, Google Ads and Funnel Strategies.",
+                hero_cta: "I WANT TO BE A SUCCESS CASE →",
+                results_title: "Results that",
+                results_title_highlight: "Speak for Us",
+                results_desc: "We don't believe in promises, we believe in metrics and ROI.",
+                case1_tag: "Optician",
+                case1_text: "\"KADD managed to bring more visibility to our optical shop in less than a month! The Facebook Ads campaigns were a success.\"",
+                case2_tag: "Clothing Store",
+                case2_text: "\"We saw a significant increase in the flow of customers to our physical store. Great results and we highly recommend!\"",
+                case3_tag: "Men's Fashion",
+                case3_text: "\"We managed to sell stagnant sneakers that we couldn't sell on our own. It gave us a great breath to raise cash again!\"",
+                case4_tag: "Osasco Festival",
+                case4_text: "\"The event reached the right audience and had an excellent presence, thanks to the paid traffic strategies.\"",
+                services_title: "What our service",
+                services_title_highlight: "includes?",
+                services_desc: "We don't just do ads. We create a complete sales ecosystem so you don't have to worry about where your leads come from.",
+                services_cta: "Schedule a free consultation →",
+                s1_title: "High Conversion Creatives",
+                s1_desc: "Videos, images, scripts and copy focused on grabbing the customer's attention.",
+                s2_title: "Strategic Planning",
+                s2_desc: "Customized strategies for your niche, avoiding waste of budget.",
+                s3_title: "Multi-platform Management",
+                s3_desc: "Meta Ads, Google Ads, LinkedIn Ads and TikTok Ads with daily optimization.",
+                s4_title: "Funnel Consulting",
+                s4_desc: "We help you convert the lead on WhatsApp so the click becomes a sale.",
+                faq_title: "Frequently",
+                faq_title_highlight: "Asked Questions",
+                faq1_q: "What is paid traffic management?",
+                faq1_a: "It is the process of creating, managing and optimizing online ads to attract qualified potential customers directly to your business.",
+                faq2_q: "How much does the service cost?",
+                faq2_a: "Prices vary according to the complexity of the project and the ad budget. Contact us for a personalized proposal.",
+                faq3_q: "How long does it take to see results?",
+                faq3_a: "Depending on the strategy and niche, the first results in leads and visibility appear between 1 to 3 weeks.",
+                faq4_q: "Why invest in paid traffic?",
+                faq4_a: "It is the fastest and most efficient way to attract qualified customers, increase your sales and strengthen your online presence with predictable growth.",
+                about_title: "Who is behind",
+                about_text1: "<strong class='text-[#F3EDE3]'>Karina Katch</strong> and her team are the people behind of KADD Agency. With over 4 years of experience, we specialize in transforming ordinary businesses into profitable operations.",
+                about_text2: "We operate with excellence in niches such as opticians, fashion and events, helping companies grow predictably through results-oriented campaigns.",
+                about_footer: "Giving voice to your company with TRUTH and PURPOSE.",
+                cta_title: "Ready to",
+                cta_title_highlight: "scale",
+                cta_title_end: "your sales?",
+                cta_desc: "Don't let your competitor take your customers. Let's build your growth strategy today.",
+                cta_button: "REQUEST A QUOTE NOW →"
+            }
+        };
+        function setLanguage(lang) {
+            localStorage.setItem('preferredLang', lang);
+            document.documentElement.lang = lang === 'pt' ? 'pt-br' : 'en';
+
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerHTML = translations[lang][key];
+            });
+            // Update active button style
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('accent-color', 'font-bold'));
+            document.getElementById('btn-' + lang).classList.add('accent-color', 'font-bold');
+        }
+        // Initial language detection
+        window.onload = () => {
+            const savedLang = localStorage.getItem('preferredLang');
+            const browserLang = navigator.language.startsWith('en') ? 'en' : 'pt';
+            setLanguage(savedLang || browserLang);
+        }
+    </script>
+</body>
+</html>
