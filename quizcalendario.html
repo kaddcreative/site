@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Diagnóstico do Instagram</title>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '851157431362063');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=851157431362063&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+  /* layout: single-card quiz, full-bleed color band behind a centered content column, progress bar pinned to top */
+  :root{
+    --bg:#F4F7F1;
+    --surface:#FFFFFF;
+    --fg:#1F2B22;
+    --muted:#5C6B5E;
+    --accent:#7A2048;
+    --accent-ink:#FFFFFF;
+    --accent-2:#C98A2C;
+    --border:#E1E8DC;
+    --shadow: 0 1px 2px rgba(31,43,34,.06), 0 8px 24px rgba(31,43,34,.08);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141C15;
+      --surface:#1D271F;
+      --fg:#F3EFE6;
+      --muted:#A9B6A6;
+      --accent:#F2749B;
+      --accent-ink:#1F1017;
+      --accent-2:#E8B454;
+      --border:#2B372D;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141C15;
+    --surface:#1D271F;
+    --fg:#F3EFE6;
+    --muted:#A9B6A6;
+    --accent:#F2749B;
+    --accent-ink:#1F1017;
+    --accent-2:#E8B454;
+    --border:#2B372D;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:'Work Sans', -apple-system, sans-serif;
+    background:var(--bg);
+    color:var(--fg);
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
+    padding-top:env(safe-area-inset-top, 0px);
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  h1,h2,h3{ font-family:'Fraunces', Georgia, serif; text-wrap:balance; margin:0; }
+  .mono{ font-family:'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px);
+    z-index:10; background:var(--surface);
+  }
+
+  .app{
+    max-width:560px;
+    margin:0 auto;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .topbar{
+    position:sticky;
+    top:env(safe-area-inset-top, 0px);
+    z-index:5;
+    background:var(--bg);
+    padding-block:14px 10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .topbar .track{
+    flex:1;
+    height:6px;
+    border-radius:99px;
+    background:var(--border);
+    overflow:hidden;
+  }
+  .topbar .fill{
+    height:100%;
+    border-radius:99px;
+    background:var(--block-accent, var(--accent));
+    transition:width .35s ease, background .35s ease;
+    width:0%;
+  }
+  .topbar .count{
+    font-size:.78rem;
+    color:var(--muted);
+    white-space:nowrap;
+    min-width:2.2em;
+    text-align:right;
+  }
+
+  main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-block:24px 48px;
+  }
+
+  .eyebrow{
+    font-size:.75rem;
+    font-weight:600;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--block-accent, var(--accent));
+    margin-bottom:10px;
+    transition:color .35s ease;
+  }
+
+  .screen{ display:none; }
+  .screen.active{ display:flex; flex-direction:column; gap:20px; animation:rise .4s ease both; }
+  @keyframes rise{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion: reduce){ .screen.active{ animation:none; } }
+
+  h1.hero{ font-size:clamp(1.7rem, 5vw, 2.3rem); line-height:1.15; }
+  h2.qtitle{ font-size:clamp(1.25rem, 4vw, 1.55rem); line-height:1.25; font-weight:600; }
+  p.lead{ color:var(--muted); font-size:1rem; line-height:1.55; max-width:46ch; }
+
+  .options{ display:flex; flex-direction:column; gap:10px; }
+  .opt{
+    text-align:left;
+    font:inherit;
+    font-size:.98rem;
+    font-weight:500;
+    color:var(--fg);
+    background:var(--surface);
+    border:1.5px solid var(--border);
+    border-radius:14px;
+    padding:14px 16px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .opt:hover{ border-color:var(--block-accent, var(--accent)); }
+  .opt:active{ transform:scale(.99); }
+  .opt:focus-visible{ outline:2px solid var(--block-accent, var(--accent)); outline-offset:2px; }
+  .opt.selected{
+    border-color:var(--block-accent, var(--accent));
+    background:color-mix(in srgb, var(--block-accent, var(--accent)) 10%, var(--surface));
+  }
+
+  .btn{
+    font:inherit; font-weight:600; font-size:1rem;
+    border:none; border-radius:999px;
+    padding:14px 24px;
+    cursor:pointer;
+    background:var(--accent); color:var(--accent-ink);
+    transition:opacity .15s ease, transform .1s ease;
+  }
+  .btn:hover{ opacity:.92; }
+  .btn:active{ transform:scale(.98); }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; color:var(--accent); border:1.5px solid var(--accent); }
+  .btn.full{ width:100%; }
+
+  .back{
+    align-self:flex-start;
+    background:none; border:none; font:inherit; color:var(--muted);
+    font-size:.85rem; cursor:pointer; padding:4px 0;
+  }
+  .back:hover{ color:var(--fg); }
+
+  .spinner-wrap{ align-items:center; text-align:center; gap:28px; }
+  .spinner{
+    width:44px; height:44px; margin:0 auto;
+    border-radius:50%;
+    border:3px solid var(--border);
+    border-top-color:var(--accent);
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .loading-steps{ display:flex; flex-direction:column; gap:8px; color:var(--muted); font-size:.92rem; }
+  .loading-steps span{ opacity:.35; transition:opacity .25s ease; }
+  .loading-steps span.done{ opacity:1; color:var(--fg); }
+
+  .diag-card{
+    background:var(--surface);
+    border:1.5px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .phase-pill{
+    display:inline-flex; align-self:flex-start;
+    font-size:.75rem; font-weight:700; letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--accent-ink); background:var(--accent);
+    padding:5px 12px; border-radius:999px;
+  }
+
+  .mix{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .mix div{
+    background:var(--surface); border:1.5px solid var(--border); border-radius:12px;
+    padding:12px 10px; text-align:center;
+  }
+  .mix .n{ font-family:'JetBrains Mono',monospace; font-size:1.3rem; font-weight:600; }
+  .mix .label{ font-size:.72rem; color:var(--muted); margin-top:2px; }
+
+  .final-note{ font-size:.82rem; color:var(--muted); text-align:center; }
+
+  footer{
+    padding-block:18px 28px;
+    text-align:center;
+    font-size:.75rem;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="topbar" id="topbar" hidden>
+    <div class="track"><div class="fill" id="progressFill"></div></div>
+    <div class="count mono" id="progressCount"></div>
+  </div>
+
+  <main>
+
+    <!-- INTRO -->
+    <section class="screen active" data-screen="intro">
+      <div class="eyebrow">Diagnóstico grátis · 1 minuto</div>
+      <h1 class="hero">Descubra por que seu Instagram ainda não vende</h1>
+      <p class="lead">Responde algumas perguntas rápidas sobre o seu perfil e recebe um diagnóstico real: o que está te custando venda hoje e o que fazer sobre isso.</p>
+      <button class="btn" id="startBtn">Começar diagnóstico</button>
+    </section>
+
+    <!-- QUESTIONS render here -->
+    <section class="screen" data-screen="question" id="questionScreen">
+      <button class="back" id="backBtn">← voltar</button>
+      <h2 class="qtitle" id="qText"></h2>
+      <div class="options" id="qOptions"></div>
+    </section>
+
+    <!-- LOADING -->
+    <section class="screen spinner-wrap" data-screen="loading">
+      <div class="spinner"></div>
+      <div class="loading-steps" id="loadingSteps">
+        <span data-step="0">Lendo suas respostas</span>
+        <span data-step="1">Cruzando dor, desejo e rotina de postagem</span>
+        <span data-step="2">Montando seu diagnóstico</span>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="screen" data-screen="result">
+      <div class="eyebrow">Seu diagnóstico</div>
+      <h2 class="qtitle" id="resultTitle"></h2>
+      <div class="diag-card">
+        <span class="phase-pill" id="resultPill"></span>
+        <p id="resultBody" style="margin:0; line-height:1.6; color:var(--fg);"></p>
+        <div class="mix">
+          <div><div class="n mono" id="mAtracao">0</div><div class="label">Atração</div></div>
+          <div><div class="n mono" id="mNutricao">0</div><div class="label">Nutrição</div></div>
+          <div><div class="n mono" id="mConversao">0</div><div class="label">Conversão</div></div>
+        </div>
+      </div>
+      <p class="lead" id="resultCta"></p>
+      <div style="text-align:center; display:flex; flex-direction:column; gap:2px;">
+        <span class="eyebrow" style="margin:0;">Somente hoje</span>
+        <span style="font-size:1.05rem; color:var(--muted);">De <s>R$800</s> por <strong style="color:var(--fg); font-size:1.3rem;">R$97</strong></span>
+      </div>
+      <a class="btn full" style="text-align:center;" id="finalLink" href="https://calendario30dias.lovable.app/" target="_blank" rel="noopener">Garantir meu Calendário de 30 Dias</a>
+      <p class="final-note">Mix pensado pra atrair, nutrir e converter: 13 reels, 9 posts estáticos e 8 carrosséis por mês.</p>
+    </section>
+
+  </main>
+
+  <footer>Atendimento por @nexusk.ads · NK Performance Digital</footer>
+</div>
+
+<script>
+(function(){
+  const questions = [
+    { id:'q1', block:1, key:'businessType', text:'Qual tipo de negócio você tem?',
+      options:[
+        {label:'Clínica ou estética', tag:'negócios de estética e clínica'},
+        {label:'Studio de treino ou esporte', tag:'studios de treino'},
+        {label:'Loja física', tag:'lojas físicas'},
+        {label:'Prestador de serviço', tag:'prestadores de serviço'},
+        {label:'Outro', tag:'negócios como o seu'}
+      ]},
+    { id:'q2', block:1, text:'Quem cuida do seu Instagram hoje?',
+      options:[
+        {label:'Eu mesma(o)'},
+        {label:'Uma social media contratada'},
+        {label:'Ninguém cuida direito'}
+      ]},
+    { id:'q3', block:1, text:'Hoje você posta com que frequência?',
+      options:[
+        {label:'Quase todo dia'},
+        {label:'Algumas vezes por semana'},
+        {label:'Raramente ou nunca'}
+      ]},
+    { id:'q4', block:2, text:'O que mais te incomoda no seu Instagram hoje?',
+      options:[
+        {label:'Não sei o que postar', score:{atracao:1}},
+        {label:'Posto e não vira cliente', score:{conversao:1}},
+        {label:'Feed sem padrão nenhum', score:{nutricao:1}},
+        {label:'Gasto tempo demais pensando em conteúdo', score:{atracao:1}}
+      ]},
+    { id:'q5', block:2, text:'Com que frequência você fica sem ideia na hora de gravar ou escrever um post?',
+      options:[
+        {label:'Toda semana', score:{atracao:1}},
+        {label:'Direto, é raro eu ter ideia pronta', score:{atracao:2}},
+        {label:'Às vezes', score:{}}
+      ]},
+    { id:'q6', block:2, text:'Seu feed hoje gera agendamento e venda, ou só visualização?',
+      options:[
+        {label:'Só visualização', score:{conversao:2}},
+        {label:'Gera um pouco, mas pouco', score:{conversao:1}},
+        {label:'Não sei medir isso', score:{nutricao:1}}
+      ]},
+    { id:'q7', block:3, text:'Se seu Instagram vendesse sozinho, o que mudaria primeiro no seu negócio?',
+      options:[
+        {label:'Mais agendamento', score:{conversao:1}},
+        {label:'Mais autoridade no meu nicho', score:{nutricao:1}},
+        {label:'Menos tempo pensando em conteúdo', score:{atracao:1}},
+        {label:'Mais faturamento', score:{conversao:1}}
+      ]},
+    { id:'q8', block:3, text:'Quantos clientes novos por mês você gostaria de puxar só do Instagram?',
+      options:[ {label:'De 1 a 5'}, {label:'De 6 a 15'}, {label:'Mais de 15'} ]},
+    { id:'q9', block:3, text:'Em quanto tempo você quer ver esse feed virando vitrine de verdade?',
+      options:[ {label:'Esse mês'}, {label:'Nos próximos 30 dias'}, {label:'Sem pressa, mas quero resolver'} ]},
+    { id:'q10', block:4, text:'Você toparia seguir um calendário de conteúdo pronto por 30 dias, com gancho, visual e legenda definidos?',
+      options:[
+        {label:'Sim, prefiro só publicar o que já vem pronto'},
+        {label:'Talvez, depende do que vier'},
+        {label:'Não, prefiro criar sozinha(o)'}
+      ]}
+  ];
+
+  const blockAccent = { 1:'var(--accent)', 2:'#C9553E', 3:'var(--accent-2)', 4:'var(--accent)' };
+
+  const state = { idx:0, answers:{}, scores:{atracao:0, nutricao:0, conversao:0}, businessTag:'negócios como o seu' };
+
+  const app = document.querySelector('.app');
+  const screens = Object.fromEntries(
+    [...document.querySelectorAll('.screen')].map(el => [el.dataset.screen, el])
+  );
+  const topbar = document.getElementById('topbar');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+
+  function fbqSafe(){
+    if (typeof fbq === 'function'){ try{ fbq.apply(null, arguments); }catch(e){} }
+  }
+
+  function setBlockAccent(block){
+    app.style.setProperty('--block-accent', blockAccent[block] || 'var(--accent)');
+  }
+
+  function show(name){
+    Object.values(screens).forEach(s => s.classList.remove('active'));
+    screens[name].classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function updateProgress(){
+    const total = questions.length;
+    const current = Math.min(state.idx + 1, total);
+    topbar.hidden = false;
+    progressFill.style.width = (current/total*100) + '%';
+    progressCount.textContent = current + '/' + total;
+  }
+
+  function renderQuestion(){
+    const q = questions[state.idx];
+    setBlockAccent(q.block);
+    updateProgress();
+    document.getElementById('qText').textContent = q.text;
+    const wrap = document.getElementById('qOptions');
+    wrap.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.type = 'button';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', () => selectOption(q, opt));
+      wrap.appendChild(btn);
+    });
+    show('question');
+  }
+
+  function selectOption(q, opt){
+    state.answers[q.id] = opt.label;
+    if (opt.score){
+      Object.keys(opt.score).forEach(k => state.scores[k] = (state.scores[k]||0) + opt.score[k]);
+    }
+    if (q.key === 'businessType' && opt.tag){ state.businessTag = opt.tag; }
+    state.idx++;
+    if (state.idx < questions.length){
+      renderQuestion();
+    } else {
+      runLoading();
+    }
+  }
+
+  document.getElementById('startBtn').addEventListener('click', () => {
+    fbqSafe('track', 'Lead');
+    state.idx = 0;
+    renderQuestion();
+  });
+
+  function goBack(){
+    if (state.idx === 0){ show('intro'); topbar.hidden = true; return; }
+    state.idx--;
+    renderQuestion();
+  }
+  document.getElementById('backBtn').addEventListener('click', goBack);
+
+  function runLoading(){
+    setBlockAccent(4);
+    topbar.hidden = true;
+    show('loading');
+    const steps = [...document.querySelectorAll('#loadingSteps span')];
+    steps.forEach(s => s.classList.remove('done'));
+    let i = 0;
+    const tick = () => {
+      if (i < steps.length){ steps[i].classList.add('done'); i++; setTimeout(tick, 550); }
+      else { setTimeout(renderResult, 400); }
+    };
+    tick();
+  }
+
+  const phaseCopy = {
+    atracao: {
+      label:'Fase de atração',
+      body: (tag) => `Seu perfil ainda não traz gente nova o suficiente. É comum em ${tag}: os posts até existem, mas sem um gancho pensado pra parar o scroll, quem não te conhece passa direto. O Calendário resolve isso com reels curtos de até 7 segundos, construídos pra trazer visitante novo todo dia.`,
+      cta:'Seu plano de 30 dias já começa priorizando os reels de atração, pra puxar gente nova pro seu perfil nas primeiras semanas.'
+    },
+    nutricao: {
+      label:'Fase de nutrição',
+      body: (tag) => `Seu perfil já atrai gente, mas ainda não constrói autoridade o suficiente pra essa pessoa confiar e seguir. Isso é bem comum em ${tag}, onde o trabalho é forte mas o feed não mostra isso com clareza. O Calendário entra com posts estáticos e carrosséis pensados pra mostrar seu método e tirar as dúvidas que seguram a decisão.`,
+      cta:'Seu plano de 30 dias reforça os carrosséis e estáticos de autoridade, pra quem já te segue chegar mais perto de comprar.'
+    },
+    conversao: {
+      label:'Fase de conversão',
+      body: (tag) => `Seu perfil já tem público, mas o feed não está puxando esse público pra agendar ou comprar. É um padrão comum em ${tag}: o conteúdo é bonito, mas falta uma legenda que termine em ação clara. O Calendário entra com legendas de alta conversão, estruturadas em blocos até o CTA direto.`,
+      cta:'Seu plano de 30 dias prioriza as legendas e os ganchos de conversão, pra transformar quem já te segue em agendamento.'
+    }
+  };
+
+  function renderResult(){
+    const scores = state.scores;
+    let phase = 'atracao';
+    if (scores.nutricao > scores[phase]) phase = 'nutricao';
+    if (scores.conversao > scores[phase]) phase = 'conversao';
+    const copy = phaseCopy[phase];
+
+    document.getElementById('resultTitle').textContent = `Seu Instagram está na ${copy.label.toLowerCase()}`;
+    document.getElementById('resultPill').textContent = copy.label;
+    document.getElementById('resultBody').textContent = copy.body(state.businessTag);
+    document.getElementById('resultCta').textContent = copy.cta;
+    document.getElementById('mAtracao').textContent = scores.atracao;
+    document.getElementById('mNutricao').textContent = scores.nutricao;
+    document.getElementById('mConversao').textContent = scores.conversao;
+
+    setBlockAccent(phase === 'atracao' ? 1 : phase === 'nutricao' ? 3 : 4);
+    topbar.hidden = true;
+    show('result');
+
+    fbqSafe('track', 'CompleteRegistration', { content_name: 'diagnostico_instagram', phase: phase });
+  }
+
+  document.getElementById('finalLink').addEventListener('click', () => {
+    fbqSafe('track', 'InitiateCheckout', { content_name: 'calendario_30_dias', value: 97, currency: 'BRL' });
+  });
+})();
+</script>
+
+</body>
+</html>
